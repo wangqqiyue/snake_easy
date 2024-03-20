@@ -5,8 +5,8 @@
     <title>贪吃蛇</title>
     <style type="text/css">
 *{margin:0;padding: 0;font-family: "Microsoft YaHei";}
-#page{margin-right: auto;margin-left: auto; margin-top: 20px;height: 600px; width: 980px; }
-#yard{ width: 800px;border: 1px solid gray;box-shadow: 0 0 10px black; float: right;}
+#page{margin-right: auto;margin-left: auto; margin-top: 20px;height: 680px; width: 980px; }
+#yard{height: 600px; width: 900px;border: 1px solid gray;box-shadow: 0 0 10px black; float: right;}
 #mark{font-weight: 800;}
 #mark_con{ color: red; }
 button{width: 50px; }
@@ -15,8 +15,8 @@ a{text-decoration:none;}
 <script type="text/javascript">
         //伪常量
         var BLOCK_SIZE = 15;        //格子大小
-        var COLS = 40;                        //列数
-        var ROWS = 50;                        //行数
+        var COLS = 60;                        //列数
+        var ROWS = 40;                        //行数
         //变量
         var snakes = [];                //保存蛇坐标
         var c = null;                        //绘图对象
@@ -50,25 +50,26 @@ a{text-decoration:none;}
                 c.beginPath();
                 c.fillStyle = "green";
                 c.fillRect(snakes[i].x, snakes[i].y, BLOCK_SIZE, BLOCK_SIZE);
-                c.moveTo(snakes[i].x, snakes[i].y);
-                c.lineTo(snakes[i].x + BLOCK_SIZE, snakes[i].y);
-                c.lineTo(snakes[i].x + BLOCK_SIZE, snakes[i].y + BLOCK_SIZE);
-                c.lineTo(snakes[i].x, snakes[i].y + BLOCK_SIZE);
+                //绘制边框
+                // c.moveTo(snakes[i].x, snakes[i].y);
+                // c.lineTo(snakes[i].x + BLOCK_SIZE, snakes[i].y);
+                // c.lineTo(snakes[i].x + BLOCK_SIZE, snakes[i].y + BLOCK_SIZE);
+                // c.lineTo(snakes[i].x, snakes[i].y + BLOCK_SIZE);
                 c.closePath();
-                c.strokeStyle = "white";
-                c.stroke();
+                // c.strokeStyle = "white";
+                // c.stroke();
             }
             //画出食物
             c.beginPath();
             c.fillStyle = "yellow";
             c.fillRect(foodX, foodY, BLOCK_SIZE, BLOCK_SIZE);
-            c.moveTo(foodX, foodY);
-            c.lineTo(foodX + BLOCK_SIZE, foodY);
-            c.lineTo(foodX + BLOCK_SIZE, foodY + BLOCK_SIZE);
-            c.lineTo(foodX, foodY + BLOCK_SIZE);
+            // c.moveTo(foodX, foodY);
+            // c.lineTo(foodX + BLOCK_SIZE, foodY);
+            // c.lineTo(foodX + BLOCK_SIZE, foodY + BLOCK_SIZE);
+            // c.lineTo(foodX, foodY + BLOCK_SIZE);
             c.closePath();
-            c.strokeStyle = "red";
-            c.stroke();
+            // c.strokeStyle = "red";
+            // c.stroke();
         }
         //游戏初始化
         function start(){
@@ -77,7 +78,7 @@ a{text-decoration:none;}
             }
             addFood();
             draw();
-            oMark.innerHTML = 0;
+            oMark.innerHTML = 0;//分数初始为 0
         }
         //移动函数
         function move(){
@@ -96,7 +97,7 @@ a{text-decoration:none;}
                 break;
                 default:;
             }
-            snakes.shift();
+            snakes.shift();//shift() 方法用于把数组的第一个元素从其中删除，并返回第一个元素的值
             isEat();
             isDie();
             draw();
@@ -104,15 +105,15 @@ a{text-decoration:none;}
         //吃到食物判断
         function isEat(){
             if (snakes[snakecount - 1].x == foodX && snakes[snakecount - 1].y == foodY) {
-                oMark.innerHTML = (parseInt(oMark.innerHTML) + 1).toString();
-                addFood();
-                addSnake();
+                oMark.innerHTML = (parseInt(oMark.innerHTML) + 1).toString();//分数+1
+                addFood();//新增食物
+                addSnake();//蛇身长度+1
             }
         }
         //添加蛇身
         function addSnake(){
             snakecount++;
-            snakes.unshift({x:BLOCK_SIZE * COLS, y:BLOCK_SIZE * ROWS});
+            snakes.unshift({x:BLOCK_SIZE * COLS, y:BLOCK_SIZE * ROWS});//unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度
         }
         //交互响应函数
         function keydown(keyCode){
@@ -163,7 +164,7 @@ a{text-decoration:none;}
             c = document.getElementById('canvas').getContext('2d');
             oMark = document.getElementById('mark_con');
             start();
-            interval = setInterval(move,100);
+            interval = setInterval(move,100);//每100ms调用一次 move
             document.onkeydown = function(event){
                 var event = event || window.event;
                 keydown(event.keyCode);
@@ -173,7 +174,7 @@ a{text-decoration:none;}
 </head>
 <body>
     <div id="page">
-        <div id="yard"><canvas id="canvas" height="600px" width="800px"></canvas></div>
+        <div id="yard"><canvas id="canvas" height="600px" width="900px"></canvas></div>
         <div id="help">
             <div id="mark">得分：<span id="mark_con"></span></div>
             <div id="helper">
